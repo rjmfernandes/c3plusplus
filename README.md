@@ -227,7 +227,7 @@ You can check with:
 docker compose exec kafka1 tail -f /var/log/kafka/server.log
 ```
 
-**(To be reviewed as per ansible documentation.)**
+And access C3++ over http://localhost:9021/
 
 ## Cleanup
 
