@@ -76,6 +76,16 @@ services:
     hostname: cc
     container_name: cc
     ports:
+     - "9022:9021"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    privileged: true
+    cgroup: host
+  c3pp:
+    image: my-geerlingguy-docker-ubuntu-ansible:latest
+    hostname: c3pp
+    container_name: c3pp
+    ports:
      - "9021:9021"
      - "9090:9090"
     volumes:
