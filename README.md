@@ -104,9 +104,10 @@ docker compose exec -it c3pp bash
 Once in the c3++ container shell execute:
 
 ```shell
-sudo apt-get install wget
-sudo apt-get install gpg-agent
-sudo apt-get install vim
+sudo apt-get update
+sudo apt-get install -y wget
+sudo apt-get install -y gpg-agent
+sudo apt-get install -y vim
 ```
 
 And after:
