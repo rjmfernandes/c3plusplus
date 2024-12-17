@@ -122,7 +122,7 @@ sudo apt-get update
 sudo apt install -y confluent-platform confluent-security
 ```
 
-If in parallel we connect in another shell to cc:
+If in parallel we connect in another shell to cc (confirm the `ansible-playbook ./all.yml -i hosts.yml` executed before has completed):
 
 ```shell
 docker compose exec cc cat /etc/confluent-control-center/control-center-production.properties
@@ -155,6 +155,8 @@ confluent.controlcenter.prometheus.url=http://localhost:9090
 confluent.controlcenter.prometheus.rules.file=/etc/confluent-control-center/trigger_rules-generated.yml
 confluent.controlcenter.alertmanager.config.file=/etc/confluent-control-center/alertmanager-generated.yml
 ```
+
+(You have an example of the file here at `control-center-production.properties`.)
 
 Change ownership of configuration files:
 
