@@ -82,7 +82,7 @@ services:
     privileged: true
     cgroup: host
   c3pp:
-    image: my-geerlingguy-docker-ubuntu-ansible:latest
+    image: c3pp:latest
     hostname: c3pp
     container_name: c3pp
     ports:
