@@ -63,6 +63,20 @@ cd ..
 docker compose up -d
 ```
 
+You will need to map the host names on your `/etc/hosts` file:
+
+```
+127.0.0.1 zk1
+127.0.0.1 zk2
+127.0.0.1 zk3
+127.0.0.1 kafka1
+127.0.0.1 kafka2
+127.0.0.1 kafka3
+127.0.0.1 sr
+127.0.0.1 cc
+127.0.0.1 c3pp
+```
+
 Finally back to the cp-ansible cloned repository run:
 
 ```bash
