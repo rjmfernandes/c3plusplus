@@ -85,7 +85,7 @@ ansible-galaxy collection install git+https://github.com/confluentinc/cp-ansible
 ansible-playbook ./all.yml -i hosts.yml
 ```
 
-In case you have an error regarding the custiom java path edit hosts.yml and change it probably to something like the following and try again:
+In case you have an error regarding the custom java path edit `hosts.yml` and change it probably to something like the following and try again:
 
 ```
 custom_java_path: /usr/lib/jvm/java-17-openjdk-amd64
