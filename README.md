@@ -8,6 +8,8 @@ This project is based on https://github.com/rjmfernandes/local-ansible-cp
   - [Build the C3++ image](#build-the-c3-image)
   - [Ansible start](#ansible-start)
   - [Test C3++](#test-c3)
+  - [Add some data - Connect](#add-some-data---connect)
+    - [Create Connectors](#create-connectors)
   - [Cleanup](#cleanup)
 
 ## Disclaimer
@@ -73,6 +75,7 @@ You will need to map the host names on your `/etc/hosts` file:
 127.0.0.1 kafka2
 127.0.0.1 kafka3
 127.0.0.1 sr
+127.0.0.1 connect
 127.0.0.1 cc
 127.0.0.1 c3pp
 ```
@@ -118,6 +121,73 @@ docker compose exec kafka3 curl http://c3pp:9090/-/healthy
 ```
 
 And access C3++ over http://localhost:9021/
+
+## Add some data - Connect
+
+You can check the connector plugins available by executing:
+
+```bash
+curl localhost:8083/connector-plugins | jq
+```
+
+As you see we only have source connectors:
+
+```text
+[
+  {
+    "class": "org.apache.kafka.connect.mirror.MirrorCheckpointConnector",
+    "type": "source",
+    "version": "7.6.0-ce"
+  },
+  {
+    "class": "org.apache.kafka.connect.mirror.MirrorHeartbeatConnector",
+    "type": "source",
+    "version": "7.6.0-ce"
+  },
+  {
+    "class": "org.apache.kafka.connect.mirror.MirrorSourceConnector",
+    "type": "source",
+    "version": "7.6.0-ce"
+  }
+]
+```
+
+Let's install confluentinc/kafka-connect-datagen connector plugin for sink.
+
+```shell
+docker compose exec connect confluent-hub install --no-prompt confluentinc/kafka-connect-datagen:latest
+```
+
+Restart connect:
+
+```shell
+docker compose restart connect
+```
+
+Now if we list our plugins again we should see new one corresponding to the Datagen connector.
+
+### Create Connectors
+
+Let's create our source connectors using datagen:
+
+```bash
+curl -i -X PUT -H "Accept:application/json" -H  "Content-Type:application/json" http://localhost:8083/connectors/my-datagen-source2/config -d '{
+    "name" : "my-datagen-source2",
+    "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
+    "kafka.topic" : "customers",
+    "output.data.format" : "AVRO",
+    "quickstart" : "SHOE_CUSTOMERS",
+    "tasks.max" : "1"
+}'
+curl -i -X PUT -H "Accept:application/json" -H  "Content-Type:application/json" http://localhost:8083/connectors/my-datagen-source3/config -d '{
+    "name" : "my-datagen-source3",
+    "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
+    "kafka.topic" : "orders",
+    "output.data.format" : "AVRO",
+    "quickstart" : "SHOE_ORDERS",
+    "tasks.max" : "1"
+}'
+```
 
 ## Cleanup
 

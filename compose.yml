@@ -71,6 +71,16 @@ services:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     privileged: true
     cgroup: host
+  connect:
+    image: my-geerlingguy-docker-ubuntu-ansible:latest
+    hostname: connect
+    container_name: connect
+    ports:
+     - "8083:8083"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    privileged: true
+    cgroup: host
   cc:
     image: my-geerlingguy-docker-ubuntu-ansible:latest
     hostname: cc
